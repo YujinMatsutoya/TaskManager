@@ -1,0 +1,19 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/restrict_test_writer.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/reserve_test_dir_for_test_writer.py"
+          }
+        ]
+      }
+    ]
+  }
+}
