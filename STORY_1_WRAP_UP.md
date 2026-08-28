@@ -161,23 +161,34 @@ def db():
 
 ### 1. Package Import Path and conftest.py
 
-**Current state:** conftest.py adds `backend/` to sys.path manually so that `from app import ...` resolves.
+**The Problem:** When `uv run pytest` runs from `backend/`, test files in `backend/tests/` try to `from app import crud`. Python doesn't know where `app` is (it's a sibling directory, not an installed package). Without explicit help, the import fails.
 
-**Question:** Is this standard practice or a workaround?
+**Three Solutions:**
 
-**Explanation:**
-- **What happened:** When `uv run pytest` runs from `backend/`, test files in `backend/tests/` try to `from app import crud`. Python doesn't know where `app` is (it's a sibling, not an installed package).
-- **The workaround (current):** conftest.py manually adds `backend/` to sys.path, making the import work.
-- **Standard practice (better):** Since `backend/pyproject.toml` defines this as a real Python package, you should install it:
-  ```bash
-  cd backend
-  uv pip install -e .  # or equivalent uv command
-  uv run pytest
-  ```
-  This makes `app` properly importable without sys.path hacks.
-- **Trade-off:** Workaround (conftest.py) requires zero setup, works immediately. Standard practice requires an install step, but is the intended flow for a proper package.
+1. **Manual sys.path hack (initial approach):** conftest.py adds `backend/` to sys.path imperatively:
+   ```python
+   import sys
+   from pathlib import Path
+   BACKEND_DIR = Path(__file__).resolve().parent.parent
+   sys.path.insert(0, str(BACKEND_DIR))
+   ```
+   ✅ Works immediately, requires zero setup.
+   ❌ Custom code that has to be maintained; can break if misunderstood later.
 
-**Recommendation:** Keep conftest.py for now (it works). Document the proper flow for future developers, and consider automating the install step in CI or a Makefile once the project grows.
+2. **Declarative pytest config (chosen solution):** Add `pythonpath = ["."]` to `pyproject.toml`:
+   ```toml
+   [tool.pytest.ini_options]
+   pythonpath = ["."]
+   ```
+   ✅ Standard pytest feature (v7.0+); no custom code; clear intent; works across all pytest invocation styles.
+   ✅ Simpler conftest.py (now just a docstring).
+   ❌ Requires knowing this pytest feature exists.
+
+3. **Proper package install (longer-term):** `uv pip install -e .` with a proper `[build-system]` table in pyproject.toml.
+   ✅ True Python package semantics; `app` importable from anywhere.
+   ❌ Requires extra setup; overkill for a practice app that isn't distributed.
+
+**Decision:** Implemented solution 2 — added `pythonpath` config to pyproject.toml and removed the sys.path code from conftest.py. All 21 tests pass, confirming the simpler approach works. This is the best balance for this project: minimal, standard, and maintainable.
 
 ### 2. Test Coverage Gaps (Intentional)
 
