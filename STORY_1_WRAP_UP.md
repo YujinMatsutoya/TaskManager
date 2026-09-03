@@ -209,6 +209,25 @@ No test changes needed; these are locked-in as expected behavior per human revie
 
 ---
 
+## Development Process Insight: AI-Assisted Problem-Solving
+
+The sys.path/import issue (documented in "Open Questions / Future Refinement" section 1) is a good case study in how AI assistance changes the debugging workflow. The problem — manual `sys.path.insert()` workaround, uncertainty about best practices, knowledge of alternatives — typically requires:
+- Googling the symptoms, finding scattered StackOverflow answers
+- Reading pytest docs to discover the `pythonpath` ini option
+- Cross-referencing `.python-version` conventions from multiple projects
+- Trial-and-error to validate the solution works
+
+With AI assistance, the entire investigation and solution happened in one conversation:
+1. Asked "how do we avoid this sys.path hack?" → received three options with trade-offs
+2. Asked "which is standard practice?" → got clear recommendation with rationale
+3. Implemented, tested, and documented in minutes
+
+The outcome was identical (cleaner, standard solution), but the *process* was faster and more confident because alternatives and reasoning were presented upfront rather than discovered through search.
+
+This is particularly valuable for practice projects where the goal is learning both the technical solution *and* the decision-making patterns that experienced developers use.
+
+---
+
 ## Summary: What This Means For Future Stories
 
 1. **Testing is not optional.** Story 1 code has subtle branching logic (three-way update, status forcing) that's easy to regress — tests catch that.
