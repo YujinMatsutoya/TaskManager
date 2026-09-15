@@ -36,6 +36,10 @@ def test_create_task_persists_title_only(db):
     assert task.id is not None
     assert task.title == "Buy milk"
     assert task.due_date is None
+    # ASSUMPTION: The spec's data model table only requires created_at to be
+    # "auto-set on creation" without specifying an exact type/format, so
+    # asserting non-null is the safe, unambiguous check here.
+    assert task.created_at is not None
 
 
 def test_create_task_persists_title_and_due_date(db):
