@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
-"""PreToolUse hook: reserves backend/tests/ for the test-writer subagent.
+"""PreToolUse hook: reserves backend/tests/ and frontend/tests/ for the
+test-writer subagent.
 
 Blocks Write/Edit calls from any agent OTHER than test-writer (including
-the main Claude Code session) that target a path inside backend/tests/.
-Pair with restrict_test_writer.py for full two-way enforcement:
-that hook confines test-writer TO backend/tests/, this one reserves
-backend/tests/ FOR test-writer only.
+the main Claude Code session) that target a path inside either directory.
+Pair with restrict_test_writer.py for full two-way enforcement: that hook
+confines test-writer TO these directories, this one reserves them FOR
+test-writer only.
 """
 import json
 import os
 import sys
+
+RESTRICTED_SUBDIRS = [("backend", "tests"), ("frontend", "tests")]
 
 
 def main() -> None:
@@ -24,11 +27,12 @@ def main() -> None:
     if not file_path:
         sys.exit(0)
 
-    restricted_dir = os.path.realpath(os.path.join(cwd, "backend", "tests"))
     target = file_path if os.path.isabs(file_path) else os.path.join(cwd, file_path)
     target = os.path.realpath(target)
 
-    if target != restricted_dir and not target.startswith(restricted_dir + os.sep):
+    restricted_dirs = [os.path.realpath(os.path.join(cwd, *parts)) for parts in RESTRICTED_SUBDIRS]
+
+    if not any(target == d or target.startswith(d + os.sep) for d in restricted_dirs):
         sys.exit(0)
 
     print(json.dumps({
@@ -37,7 +41,7 @@ def main() -> None:
             "permissionDecision": "deny",
             "permissionDecisionReason": (
                 "Only the test-writer subagent may write files under "
-                f"backend/tests/ (blocked path: {file_path})"
+                f"backend/tests/ or frontend/tests/ (blocked path: {file_path})"
             ),
         }
     }))
