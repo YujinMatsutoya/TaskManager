@@ -13,14 +13,6 @@ single-person, single-app benchmark could. The actual skill worth
 demonstrating is catching and correcting what the AI gets wrong. Keep a
 running catch log across all stories — see the bottom of this file.*
 
-*AI-assistance method by story: Story 1 uses plain main-conversation
-prompting (baseline). From Story 2 onward, define and use a `test-writer`
-subagent (fixed system prompt, isolated context — see Module 1 in the
-curriculum) instead of ad-hoc prompting, then have a `test-reviewer`
-subagent critique its output before you do your own review. This keeps
-test quality consistent across stories and gives a genuine before/after
-comparison point.*
-
 ---
 
 ## Story 1 — Backend: Task model + CRUD endpoints
@@ -34,7 +26,7 @@ comparison point.*
 
 **Explicitly not in this story:** the `/remind` endpoint, any frontend code
 
-**Test after this story (baseline — plain main-conversation prompting, log catches as you go):**
+**Test after this story (log catches as you go):**
 - [x] Unit tests — status validation, model defaults
 - [x] Integration tests — each endpoint against a real test database
       (happy path + 404s + validation errors)
@@ -52,7 +44,7 @@ comparison point.*
 
 **Explicitly not in this story:** add form, status change, delete, reminder
 
-**Test after this story (via test-writer + test-reviewer subagents, log catches as you go):**
+**Test after this story (log catches as you go):**
 - [ ] Unit tests — isolated rendering/filtering logic
 - [ ] Integration tests — frontend against the real backend (not mocked)
 - [ ] E2E test — load the page, filter by status
@@ -68,7 +60,7 @@ comparison point.*
 
 **Explicitly not in this story:** status change, delete, reminder
 
-**Test after this story (via test-writer + test-reviewer subagents, log catches as you go):**
+**Test after this story (log catches as you go):**
 - [ ] Unit tests — form validation logic
 - [ ] Integration tests — submit against the real backend
 - [ ] E2E test — add a task, see it appear in the list; try submitting
@@ -84,7 +76,7 @@ comparison point.*
 
 **Explicitly not in this story:** reminder button, reminder state display
 
-**Test after this story (via test-writer + test-reviewer subagents, log catches as you go):**
+**Test after this story (log catches as you go):**
 - [ ] Unit tests — isolated row-action logic
 - [ ] Integration tests — status change and delete against the real backend
 - [ ] E2E test — change a task's status, confirm it updates; delete a task,
@@ -102,7 +94,7 @@ comparison point.*
 
 **Explicitly not in this story:** any frontend changes
 
-**Test after this story (via test-writer + test-reviewer subagents, log catches as you go):**
+**Test after this story (log catches as you go):**
 - [ ] Unit tests — reminder scheduling logic
 - [ ] Integration tests — call the endpoint, assert `reminder_sent` flips
       to true after the delay (this is the one genuinely async test in the
@@ -118,7 +110,7 @@ comparison point.*
 - Visible state change once `reminder_sent` flips true (badge/icon/text)
 - Polling or re-fetch to pick up the state change
 
-**Test after this story (via test-writer + test-reviewer subagents, log catches as you go):**
+**Test after this story (log catches as you go):**
 - [ ] Unit tests — any new isolated frontend logic (e.g. polling logic)
 - [ ] E2E test — click "remind me", wait for the state change to appear in
       the UI, assert on it. This is the flagship E2E test for the whole
@@ -132,7 +124,7 @@ For every AI-generated test you accept, tweak, or reject, note it here.
 This log — not a timing comparison — is the actual Module 1 portfolio
 output.
 
-| Story | Test | What AI got wrong / right | Fix applied | Caught by (you / reviewer subagent / both) |
+| Story | Test | What AI got wrong / right | Fix applied | Caught by (you / reviewer / both) |
 |---|---|---|---|---|
 | | | | | |
 
