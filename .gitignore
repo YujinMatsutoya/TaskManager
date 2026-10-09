@@ -4,4 +4,3 @@ __pycache__/
 *.db
 .DS_Store
 .claude/settings.local.json
-Development_Backlog.md
