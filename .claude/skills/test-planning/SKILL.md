@@ -49,7 +49,7 @@ Sources: <docs read, with versions/dates> · Revision: 1
 | Requirement | Cases | Status |      <!-- covered | gap | out of scope -->
 
 ## Gaps
-| ID | Requirement | Problem (vague / contradictory / unobservable / no NFR) | Question for owner |
+| ID | Requirement (quoted) | Problem | Question for owner |   <!-- Problem: exactly one of vague | contradictory | unobservable | no NFR -->
 
 ## Out of scope
 - <item>: <why, e.g. "story 2b says the reminder comes later">
@@ -57,7 +57,7 @@ Sources: <docs read, with versions/dates> · Revision: 1
 ## UI contract (e2e) · Performance setup (only if those levels appear)
 
 ## Change log
-| Rev | Change | Reason / feedback source |
+| Rev | Cases | Change | Decision | Source |   <!-- Decision: accepted | declined | n/a; one row per feedback item -->
 ~~~
 
 ## Revising from feedback
@@ -65,7 +65,7 @@ Later phases may send feedback: a case at the wrong level, a gap the writer foun
 1. Find the cases it affects, and check the feedback against the spec rather than accepting it blindly.
 2. Change only what the feedback justifies. A level change usually means rewriting the steps and data. A flaky case may need its preconditions or waits made explicit; flakiness on its own isn't a reason to drop a case.
 3. Keep the IDs stable. Mark a removed case `status: withdrawn` instead of deleting it.
-4. Bump the revision. Add a change-log row naming the cases affected, the change and its source, and report the diff back.
+4. Bump the revision. Add one change-log row per feedback item, with the cases affected, the change, `accepted` or `declined` (give the reason when declining) and the source, and report the diff back.
 
 ## Anti-patterns
 - An expected value with no `requirement_ref`, or one that only the code could have told you
