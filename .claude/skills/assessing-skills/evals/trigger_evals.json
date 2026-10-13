@@ -1,0 +1,16 @@
+[
+  {"query": "can you review my skill at ~/.claude/skills/commit-msg and tell me if it's ready to share with the team?", "should_trigger": true},
+  {"query": "grade this SKILL.md against best practices — I think the description is too long but not sure what else", "should_trigger": true},
+  {"query": "my deploy-checklist skill never seems to get picked up even when I ask about deploys. what's wrong with it? it's in .claude/skills/deploy-checklist", "should_trigger": true},
+  {"query": "audit all the skills in our plugin repo before we publish v2, start with skills/sql-review", "should_trigger": true},
+  {"query": "here's a skill a colleague wrote, is it any good?\n---\nname: helper\ndescription: helps with stuff\n---\nDo things well.", "should_trigger": true},
+  {"query": "lint the frontmatter of .claude/skills/write-tests/SKILL.md, I keep getting it wrong", "should_trigger": true},
+  {"query": "does my pdf skill follow the cheatsheet rules? naming, description, evals, the lot", "should_trigger": true},
+  {"query": "write me a new skill that generates changelog entries from git log", "should_trigger": false},
+  {"query": "run the evals for my write-tests skill and show me the benchmark", "should_trigger": false},
+  {"query": "review this PR — it changes the FastAPI PATCH handler and adds two tests", "should_trigger": false},
+  {"query": "can you review my CLAUDE.md and tell me which rules are redundant?", "should_trigger": false},
+  {"query": "what skills do I have installed and what does each one do?", "should_trigger": false},
+  {"query": "improve the description of my sql-review skill so it triggers more often, and run the optimization loop", "should_trigger": false},
+  {"query": "assess my skills as a backend engineer for a CV — what should I learn next?", "should_trigger": false}
+]

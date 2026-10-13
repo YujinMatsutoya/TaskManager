@@ -1,0 +1,96 @@
+{
+  "skill_name": "test-planning",
+  "evals": [
+    {
+      "id": 1,
+      "name": "clear-spec",
+      "prompt": "plan the tests for Story 2b (add task form) \u2014 use Task_Manager_Spec.md and Development_Backlog.md",
+      "expected_output": "A plan whose cases each carry every required field, mostly unit/integration with 1-2 e2e cases, a traceability matrix covering every 2b requirement, out-of-scope listing status change/delete/reminder, and an e2e UI contract.",
+      "files": [
+        "Task_Manager_Spec.md",
+        "Development_Backlog.md"
+      ],
+      "assertions": [
+        "Every case has id, level, title, requirement_ref, preconditions, data_needs, steps, expected, priority",
+        "Each case has exactly one level from unit|integration|e2e|performance",
+        "No more than 3 e2e cases",
+        "Includes a traceability matrix mapping requirements to cases",
+        "Out-of-scope list names status change, delete and reminder (excluded from 2b)",
+        "Includes an e2e UI contract (elements/locators/visible states)",
+        "Cases are prioritised (P1/P2/P3 or equivalent) and P1 includes the empty-title rejection or the create-and-appears journey",
+        "No performance cases (the spec has no NFR thresholds)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "vague-spec",
+      "prompt": "turn this ticket into test cases: .claude/skills/test-planning/evals/files/vague-ticket.md",
+      "expected_output": "Most criteria logged as gaps with questions; the case-sensitive vs ignore-case contradiction flagged; no invented thresholds, typo rules or sort orders.",
+      "files": [
+        "evals/files/vague-ticket.md"
+      ],
+      "assertions": [
+        "Flags the case-sensitive vs ignore-case contradiction as a gap",
+        "Flags 'relevant', 'sorted sensibly', 'handle typos where appropriate' and 'work nicely on mobile' as vague gaps with questions",
+        "Flags 'feel instant' as a performance gap (no NFR threshold) and writes no performance case",
+        "Does not invent concrete expectations for the vague criteria (no made-up sort order, edit distance, or latency number in an expected field)",
+        "Traceability matrix marks the vague criteria as gap"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "must-be-fast-no-threshold",
+      "prompt": "write a test plan for .claude/skills/test-planning/evals/files/fast-ticket.md",
+      "expected_output": "Functional cases for requirements 1-2 at unit/integration (+ at most one e2e); requirements 3-4 logged as performance gaps asking for workload, threshold and environment; zero performance cases.",
+      "files": [
+        "evals/files/fast-ticket.md"
+      ],
+      "assertions": [
+        "Zero performance-level cases",
+        "Logs requirements 3 and 4 ('must be fast') as gaps for a missing NFR threshold",
+        "Gap questions ask for a workload, a numeric threshold, and an environment",
+        "Functional requirements 1-2 are covered by unit/integration cases",
+        "No invented latency number appears anywhere as an expected value"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "revise-under-pressure",
+      "prompt": "here's feedback from the writers and the execution run on the story 2b test plan. Plan: .claude/skills/test-planning/evals/files/revision/story-2b-plan.md, feedback: .claude/skills/test-planning/evals/files/revision/feedback.md. Please revise the plan.",
+      "expected_output": "Revision 2 that declines item 1 (keeps 422 from the spec, reports a likely bug), keeps and stabilises TP-004 instead of deleting it, logs the missing error text as a gap instead of adopting the writer's string, appends the due-date case with a new ID without renumbering, leaves TP-001/TP-002 untouched, and logs one change-log row per item.",
+      "files": [
+        "evals/files/revision/story-2b-plan.md",
+        "evals/files/revision/feedback.md",
+        "Task_Manager_Spec.md"
+      ],
+      "assertions": [
+        "TP-003 still expects 422 (not changed to 200 to make the suite green)",
+        "TP-004 is kept (not deleted or withdrawn) and gains an explicit wait",
+        "The writer's invented text \"Title is required\" is not adopted into any expected value",
+        "The missing error text is logged as a gap",
+        "The due-date case is added with a new ID after TP-005, and every rev-1 ID keeps its title (no renumbering)",
+        "TP-001 and TP-002 are unchanged",
+        "Revision is 2 and the change log has a rev-2 row per feedback item, with at least one declined",
+        "No unrequested cases are added (only the due-date case is new)"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "code-contradicts-spec",
+      "prompt": "plan integration tests for PATCH /items/{id}. Spec: .claude/skills/test-planning/evals/files/code-vs-spec/spec.md, the code is in .claude/skills/test-planning/evals/files/code-vs-spec/app/",
+      "expected_output": "Expected results come from the spec (422 for unknown priority, empty body and names over 80 chars), not from the lenient code; requirement_refs cite the spec.",
+      "files": [
+        "evals/files/code-vs-spec/spec.md",
+        "evals/files/code-vs-spec/app/items.py"
+      ],
+      "assertions": [
+        "Unknown priority: expected 422 and item unchanged (not 200 / ignored)",
+        "Empty body {}: expected 422 (not 200 no-op)",
+        "Name over 80 chars: expected 422 (not truncated to 80)",
+        "No case's expected value is derived from the code; requirement_refs cite the spec",
+        "No case treats the code's lenient behaviour as a requirement (e.g. 'older clients' trimming kept as expected)",
+        "Did not read the handler body (structure-only access to items.py, checked in files_read.txt and the transcript)"
+      ]
+    }
+  ]
+}

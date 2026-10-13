@@ -1,0 +1,20 @@
+[
+  {"query": "we're about to start story 2c (status change + delete buttons on each row). before anyone writes tests, can you plan what needs testing and at which level?", "should_trigger": true},
+  {"query": "what should we test for the reminder endpoint? it flips reminder_sent after ~10s, spec is in Task_Manager_Spec.md", "should_trigger": true},
+  {"query": "turn JIRA-1182 into test cases: 'As an admin I can bulk-archive tasks older than 90 days; archived tasks are hidden from the default list but visible under the Archived filter'", "should_trigger": true},
+  {"query": "here's the PR description for the new due-date validation, help me figure out the test scope — what's in, what's out, and what's risky", "should_trigger": true},
+  {"query": "can you go through Development_Backlog.md story 4 and give me a traceable list of test cases mapped to each requirement", "should_trigger": true},
+  {"query": "the e2e writer says TP-007 and TP-009 in test-plans/story-2b.md should be integration tests, not e2e. can you update the plan?", "should_trigger": true},
+  {"query": "product says the task list 'must load fast with thousands of tasks'. how would we test that? what do we need from them first?", "should_trigger": true},
+  {"query": "i changed the PATCH handler to reject null titles. which existing tests are affected and what new cases do we need?", "should_trigger": true},
+  {"query": "define the regression test scope for upgrading fastapi from 0.104 to 0.115", "should_trigger": true},
+  {"query": "write the pytest integration tests for PATCH /tasks/{id} based on the plan in test-plans/patch.md", "should_trigger": false},
+  {"query": "run the frontend test suite and tell me what's failing", "should_trigger": false},
+  {"query": "TaskList.test.jsx fails about 1 in 5 runs in CI with 'unable to find element'. can you debug it?", "should_trigger": false},
+  {"query": "set up playwright in this repo with a config that starts both the vite dev server and the fastapi backend", "should_trigger": false},
+  {"query": "review the tests in backend/tests/test_crud.py — are any of them over-mocked or asserting the wrong thing?", "should_trigger": false},
+  {"query": "what's our current test coverage on the backend? generate a coverage report", "should_trigger": false},
+  {"query": "write the spec for a search feature: what fields, matching rules, sort order and UI it should have", "should_trigger": false},
+  {"query": "plan the next sprint: which backlog stories should we pick up and in what order?", "should_trigger": false},
+  {"query": "add a GitHub Actions workflow that runs pytest and vitest on every PR", "should_trigger": false}
+]
