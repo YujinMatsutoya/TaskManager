@@ -9,16 +9,8 @@ Build a project skill at `.claude/skills/write-tests/SKILL.md` that writes tests
 - Output: test files and scaffolding, plus a summary of what was added or changed and the assumptions to verify.
 - Run it through skill-creator: test prompts, comparing runs with and without the skill.
 
-## Decoupling
-- Build the skill **independently of the existing `test-writer` subagent** (`.claude/agents/test-writer.md`). Don't set `agent: test-writer`, and don't depend on that agent's prompt.
-- **Don't build on the old hooks.** `restrict_test_writer.py` and `reserve_test_dir_for_test_writer.py` were removed this session, and `.claude/settings.json` is now `{}`. These changes are uncommitted on `feature/skills-from-subagents`.
-
 ## Open points to decide
 - **Guardrail approach.** Requirement: the skill can touch only test code and never changes app code to make tests pass. A guard script was proposed (block Write/Edit outside test paths and block reads of app source) and declined. Options:
   - instructions only + evals that check `git diff`
   - a hook in the skill's frontmatter. Caution: these stay active for the rest of the session once the skill is invoked.
   - something else
-- **CLAUDE.md conflict.** It currently says only the `test-writer` subagent may write tests. A decoupled skill means rewording that rule.
-
-## Related
-- Deferred plan for orchestrating the whole test phase: `plans/test-phase-orchestration.md`.

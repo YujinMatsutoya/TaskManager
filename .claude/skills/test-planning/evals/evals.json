@@ -1,0 +1,65 @@
+{
+  "skill_name": "test-planning",
+  "evals": [
+    {
+      "id": 1,
+      "name": "clear-spec",
+      "prompt": "plan the tests for Story 2b (add task form) — use Task_Manager_Spec.md and Development_Backlog.md",
+      "expected_output": "A plan whose cases each carry every required field, mostly unit/integration with 1-2 e2e cases, a traceability matrix covering every 2b requirement, out-of-scope listing status change/delete/reminder, and an e2e UI contract.",
+      "files": ["Task_Manager_Spec.md", "Development_Backlog.md"],
+      "assertions": [
+        "Every case has id, level, title, requirement_ref, preconditions, data_needs, steps, expected, priority",
+        "Each case has exactly one level from unit|integration|e2e|performance",
+        "No more than 3 e2e cases",
+        "Includes a traceability matrix mapping requirements to cases",
+        "Out-of-scope list names status change, delete and reminder (excluded from 2b)",
+        "Includes an e2e UI contract (elements/locators/visible states)",
+        "Cases are prioritised (P1/P2/P3 or equivalent) and P1 includes the empty-title rejection or the create-and-appears journey",
+        "No performance cases (the spec has no NFR thresholds)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "vague-spec",
+      "prompt": "turn this ticket into test cases: .claude/skills/test-planning/evals/files/vague-ticket.md",
+      "expected_output": "Most criteria logged as gaps with questions; the case-sensitive vs ignore-case contradiction flagged; no invented thresholds, typo rules or sort orders.",
+      "files": ["evals/files/vague-ticket.md"],
+      "assertions": [
+        "Flags the case-sensitive vs ignore-case contradiction as a gap",
+        "Flags 'relevant', 'sorted sensibly', 'handle typos where appropriate' and 'work nicely on mobile' as vague gaps with questions",
+        "Flags 'feel instant' as a performance gap (no NFR threshold) and writes no performance case",
+        "Does not invent concrete expectations for the vague criteria (no made-up sort order, edit distance, or latency number in an expected field)",
+        "Traceability matrix marks the vague criteria as gap"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "must-be-fast-no-threshold",
+      "prompt": "write a test plan for .claude/skills/test-planning/evals/files/fast-ticket.md",
+      "expected_output": "Functional cases for requirements 1-2 at unit/integration (+ at most one e2e); requirements 3-4 logged as performance gaps asking for workload, threshold and environment; zero performance cases.",
+      "files": ["evals/files/fast-ticket.md"],
+      "assertions": [
+        "Zero performance-level cases",
+        "Logs requirements 3 and 4 ('must be fast') as gaps for a missing NFR threshold",
+        "Gap questions ask for a workload, a numeric threshold, and an environment",
+        "Functional requirements 1-2 are covered by unit/integration cases",
+        "No invented latency number appears anywhere as an expected value"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "writer-handback-wrong-level",
+      "prompt": "the writers sent feedback on the story 2a plan. Plan: .claude/skills/test-planning/evals/files/story-2a-plan.md, feedback: .claude/skills/test-planning/evals/files/writer-feedback.md. Revise the plan.",
+      "expected_output": "Revision 2: TP-003 moved to unit with rewritten steps; TP-002 kept at unit with the reason for rejecting the feedback; TP-004 kept with an explicit wait-for-loaded precondition/step; IDs stable; change log row(s) citing the feedback.",
+      "files": ["evals/files/story-2a-plan.md", "evals/files/writer-feedback.md"],
+      "assertions": [
+        "TP-003 level changed to unit (or integration) and its steps no longer drive a browser",
+        "TP-002 stays at unit, with a stated reason for rejecting feedback item 2",
+        "TP-004 is kept (not deleted) and gains an explicit wait or synchronisation condition",
+        "Case IDs are unchanged (no renumbering)",
+        "Revision is bumped to 2",
+        "Change log has entries naming the affected cases and citing the writer feedback"
+      ]
+    }
+  ]
+}

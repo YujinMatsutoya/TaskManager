@@ -1,0 +1,23 @@
+{
+  "skill_name": "assessing-skills",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "assess the pdf skill in my synced skills folder against the cheatsheet",
+      "expected_output": "Report following assets/report-template.md; flags D3 (no when-not clause) and N3 (no gerund), marks E3/E4/P4/P6-P8 not verifiable, proposes a rewritten description, includes three test cases.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "is this skill any good?\n---\nname: helper\ndescription: A helpful skill for documents.\n---\nALWAYS be careful. NEVER make mistakes. Handle edge cases.",
+      "expected_output": "Readiness 'not ready'; fails N4 (generic name), S6 (filler description), D3; flags Q2 caps-lock rules without reasons and Q5 unverifiable instructions; marks folder checks not assessable (text only).",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "review the morning skill and tell me if it's ready to ship",
+      "expected_output": "Recognizes the description's 'Use only when ... is not by itself a request' as a when-not clause (D3 pass); reports Claude Code-specific coupling only if present; separates readiness from the draft tier.",
+      "files": []
+    }
+  ]
+}
