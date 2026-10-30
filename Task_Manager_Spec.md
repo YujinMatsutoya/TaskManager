@@ -51,7 +51,7 @@ required, but the body as a whole can't be empty:**
   only the fields present in the body get updated; everything else on the
   task stays untouched.
 - An **empty body `{}`** should be rejected (422), not silently accepted
-  as a no-op — this is a deliberate edge case to test.
+  as a no-op.
 - `status`, if sent, must be one of `todo` / `in_progress` / `done` —
   invalid values return 422, not silently accepted.
 
@@ -103,7 +103,8 @@ Do not add, suggest, or scaffold any of the following unless asked:
 - A styling framework or component library
 - Additional entities beyond `Task` (no projects, tags, categories, users)
 - Real notification delivery (email/push) — the in-app state flip is enough
-- Tests, test files, or test configuration of any kind — see below
+- Tests beyond the basic unit tests in "Build instructions" — no edge-case,
+  integration, or E2E tests
 
 ## Build instructions for Claude Code
 
@@ -111,12 +112,19 @@ Do not add, suggest, or scaffold any of the following unless asked:
 Build exactly the app described in this spec. Do not add, suggest, or
 scaffold anything beyond what's listed, including authentication, a
 database beyond SQLite, deployment configuration, or a styling framework.
-Do not write any automated tests, test files, or testing configuration —
-I will add all testing separately as a learning exercise. If you'd
-normally scaffold a test suite, skip that step entirely.
+Write app code and its basic unit tests together, the way a developer
+would: for each function, endpoint handler, and component, add one unit
+test for its normal, expected behaviour, run it, and fix the code until it
+passes before moving on. Write unit tests only for that happy path. Do not
+write tests for invalid input, error responses, boundaries, edge cases,
+timing, integration, or E2E. Do not scaffold a test suite beyond what the
+unit test runner needs. I will add the rest of the testing myself as a
+learning exercise.
 
 
 ## Testing layers to practice afterward (Module 1)
+
+Basic happy-path unit tests come from the build. The rest is yours to write.
 
 | Layer | What it targets | Tooling |
 |---|---|---|
