@@ -9,16 +9,19 @@
 // unit tests of App's own state logic, not integration tests against a
 // real backend.
 import { act, render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import App from '../src/App.jsx'
-import { fetchTasks } from '../src/api/tasks.js'
+import { createTask, fetchTasks } from '../src/api/tasks.js'
 
 vi.mock('../src/api/tasks.js', () => ({
   fetchTasks: vi.fn(),
+  createTask: vi.fn(),
 }))
 
 beforeEach(() => {
   fetchTasks.mockReset()
+  createTask.mockReset()
 })
 
 afterEach(() => {
@@ -102,5 +105,23 @@ describe('App state machine', () => {
     // spec/task description says error is "set from the caught exception"
     // but doesn't specify the exact wording or markup used to display it.
     expect(screen.getByText(/error/i)).toBeInTheDocument()
+  })
+})
+
+describe('App add task', () => {
+  test('adding a task creates it and shows it in the re-fetched list', async () => {
+    const user = userEvent.setup()
+    const task = { id: 1, title: 'Buy milk', status: 'todo', due_date: null, created_at: '2026-01-01T00:00:00Z' }
+    fetchTasks.mockResolvedValueOnce([]).mockResolvedValueOnce([task])
+    createTask.mockResolvedValue(task)
+
+    render(<App />)
+    await screen.findByText('No tasks found.')
+
+    await user.type(screen.getByLabelText('Title'), 'Buy milk')
+    await user.click(screen.getByRole('button', { name: 'Add task' }))
+
+    expect(createTask).toHaveBeenCalledWith({ title: 'Buy milk', due_date: null })
+    expect(await screen.findByText('Buy milk')).toBeInTheDocument()
   })
 })
