@@ -11,3 +11,15 @@ export async function fetchTasks(status = null) {
   }
   return response.json();
 }
+
+export async function createTask({ title, due_date = null }) {
+  const response = await fetch(`${API_BASE}/tasks`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title, due_date }),
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to create task: ${response.statusText}`);
+  }
+  return response.json();
+}
